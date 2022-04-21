@@ -4,8 +4,12 @@ public class JGLU {
     // Retorna matriz identidade 4x4
     public float[] matrixIdentity() {
 
-        float[][] identity = { { 1.0f, 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 1.0f, 0.0f },
-                { 0.0f, 0.0f, 0.0f, 1.0f } };
+        float[][] identity = {
+                { 1.0f, 0.0f, 0.0f, 0.0f },
+                { 0.0f, 1.0f, 0.0f, 0.0f },
+                { 0.0f, 0.0f, 1.0f, 0.0f },
+                { 0.0f, 0.0f, 0.0f, 1.0f }
+        };
 
         float[] plainIdentity = toPlainMatrix4x4(identity);
 
@@ -16,6 +20,7 @@ public class JGLU {
     // O resultado das matrizes m0 e m1 são matrizes 4x4.
     public float[] matrixMultiply(float[] m1, float[] m0) {
         float[][] matrixA = toSquareMatrix4x4(m1);
+
         float[][] matrixB = toSquareMatrix4x4(m0);
 
         float[][] result = multiplyMatrix4x4(matrixA, matrixB);
@@ -26,9 +31,11 @@ public class JGLU {
     }
 
     public float[] matrixTranslate(float x, float y, float z) {
-        // TODO
         float[][] result = {
-
+                { 1.0f, 0.0f, 0.0f, x },
+                { 0.0f, 1.0f, 0.0f, y },
+                { 0.0f, 0.0f, 1.0f, z },
+                { 0.0f, 0.0f, 0.0f, 1.0f }
         };
 
         float[] plainResult = toPlainMatrix4x4(result);
@@ -40,31 +47,23 @@ public class JGLU {
     ////////////////////////////////////////
 
     public static float[][] toSquareMatrix4x4(float[] matrix) {
-        float[][] squareMatrix = new float[4][4];
+        float[][] square = new float[4][4];
 
-        int i, j;
-        i = j = 0;
-        for (int index = 0; index < 16; index++) {
-            squareMatrix[i][j] = matrix[index];
-
-            if ((index + 1) % 4 == 0) {
-                i++;
-                j = 0;
-            } else {
-                j++;
+        for (int i = 0; i < square.length; i++) {
+            for (int j = 0; j < square[i].length; j++) {
+                square[j][i] = matrix[4 * i + j];
             }
         }
 
-        return squareMatrix;
+        return square;
     }
 
     public static float[] toPlainMatrix4x4(float[][] matrix) {
         float[] plain = new float[16];
 
-        int plainIndex = 0;
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++, plainIndex++) {
-                plain[plainIndex] = matrix[i][j];
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                plain[4 * i + j] = matrix[j][i];
             }
         }
 
@@ -76,7 +75,7 @@ public class JGLU {
 
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                int elem = 0;
+                float elem = 0;
 
                 for (int k = 0; k < matrix1.length; k++) {
                     elem += matrix1[i][k] * matrix2[k][j];

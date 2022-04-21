@@ -72,10 +72,12 @@ public final class JTestGLU implements GLEventListener {
             System.out.println("Shaders succesfully linked");
         } else {
             int[] logLength = new int[1];
-            gl.glGetProgramiv(shaderProgram, GL2.GL_INFO_LOG_LENGTH, logLength, 0);
+            gl.glGetProgramiv(shaderProgram, GL2.GL_INFO_LOG_LENGTH,
+                    logLength, 0);
 
             byte[] log = new byte[logLength[0]];
-            gl.glGetProgramInfoLog(shaderProgram, logLength[0], (int[]) null, 0, log, 0);
+            gl.glGetProgramInfoLog(shaderProgram, logLength[0], (int[]) null,
+                    0, log, 0);
 
             System.err.println("Error linking shaders: " + new String(log));
             System.exit(1);
@@ -85,9 +87,12 @@ public final class JTestGLU implements GLEventListener {
 
         // Get position of shader variables
         int vertexLoc = gl.glGetAttribLocation(shaderProgram, "vertex");
-        int projectionMatrixLocation = gl.glGetUniformLocation(shaderProgram, "u_projectionMatrix");
-        modelViewMatrixLocation = gl.glGetUniformLocation(shaderProgram, "u_modelViewMatrix");
-        colorLocation = gl.glGetUniformLocation(shaderProgram, "u_color");
+        int projectionMatrixLocation = gl.glGetUniformLocation(shaderProgram,
+                "u_projectionMatrix");
+        modelViewMatrixLocation = gl.glGetUniformLocation(shaderProgram,
+                "u_modelViewMatrix");
+        colorLocation = gl.glGetUniformLocation(shaderProgram,
+                "u_color");
 
         // Vertex-Array Object (VAO)
         gl.glGenVertexArrays(1, vao, 0); // allocate vertex-array object name
@@ -95,8 +100,12 @@ public final class JTestGLU implements GLEventListener {
 
         // Create square
         // Vertex data
-        float[] vertices = { 0.0f, 0.0f, 0.0f, 1.0f, 0.5f, 0.0f, 0.0f, 1.0f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.5f, 0.0f,
-                1.0f };
+        float[] vertices = {
+                0.0f, 0.0f, 0.0f, 1.0f,
+                0.5f, 0.0f, 0.0f, 1.0f,
+                0.5f, 0.5f, 0.0f, 1.0f,
+                0.0f, 0.5f, 0.0f, 1.0f
+        };
 
         FloatBuffer verticesFB = Buffers.newDirectFloatBuffer(vertices);
         numVertices = vertices.length / 2;
@@ -112,7 +121,8 @@ public final class JTestGLU implements GLEventListener {
 
         // Associate Vertex attribute with the last bound VBO
         gl.glVertexAttribPointer(vertexLoc/* the vertex attribute */, 4 /* four positions used for each vertex */,
-                GL2.GL_FLOAT, false /* normalized */, 0 /* stride */, 0 /* The bound VBO data offset */);
+                GL2.GL_FLOAT, false /* normalized */, 0 /* stride */,
+                0 /* The bound VBO data offset */);
 
         gl.glEnableVertexAttribArray(0);
 
@@ -213,10 +223,12 @@ public final class JTestGLU implements GLEventListener {
             byte[] log = new byte[logLength[0]];
             gl.glGetShaderInfoLog(shader, logLength[0], (int[]) null, 0, log, 0);
 
-            System.err.println("Error compiling the shader: " + new String(log));
+            System.err
+                    .println("Error compiling the shader: " + new String(log));
             System.exit(1);
         }
 
         return shader;
     }
+
 }
